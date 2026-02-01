@@ -21,41 +21,18 @@ export default function LogIn() {
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
 
-
-
         try {
             const res = await signIn.email({
                 email,
                 password,
-                callbackURL:"http://localhost:3000"
+                callbackURL: "http://localhost:3000"
             })
-            
+
             console.log(res);
         } catch (err) {
             console.log(err);
         }
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/sign-in/email`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     credentials: "include",
-        //     body: JSON.stringify({
-        //         email, password
-        //     })
-        // })
-
-        // const data = await res.json();
-        // console.log("Response:", data);
-
-        // if (!res.ok) {
-        //     throw new Error(data.message || "Login failed");
-        // }
-
-        // console.log("✅ Login success", data);
     };
-
-
 
     return (
         <div className="my-20">

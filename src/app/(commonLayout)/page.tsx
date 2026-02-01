@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { userService } from "@/services/user.service";
 
-export default function Home() {
+export default async function Home() {
+  const session = await userService.getSession();
+  console.log(session);
   return (
-    <div className="align-center">
-      <Button variant="outline">Click here</Button>
-    </div>
+    <main className="min-h-screen bg-background">
+      <h1>THis is home page</h1>
+    </main>
   );
 }
