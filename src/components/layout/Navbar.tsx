@@ -1,5 +1,3 @@
-"use client";
-
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -28,6 +26,8 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
+import { userService } from "@/services/user.service";
+import { LogoutButton } from "./LogoutButton";
 
 interface MenuItem {
   title: string;
@@ -59,7 +59,7 @@ interface Navbar1Props {
   };
 }
 
-const Navbar = ({
+const Navbar = async ({
   logo = {
     url: "https://www.shadcnblocks.com",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -79,6 +79,9 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
+  // Get session
+  const session = await userService.getSession();
+  console.log(session);
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto px-4">
@@ -105,12 +108,18 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <Button asChild variant="outline" size="sm">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+            {session?.session ? (
+              <LogoutButton />
+            ) : (
+              <>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={auth.login.url}>{auth.login.title}</Link>
+                </Button>
+                <Button asChild size="sm">
+                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                </Button>
+              </>
+            )}
             <ModeToggle />
           </div>
         </nav>
@@ -154,12 +163,18 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button asChild variant="outline">
-                      <a href={auth.login.url}>{auth.login.title}</a>
-                    </Button>
-                    <Button asChild>
-                      <a href={auth.signup.url}>{auth.signup.title}</a>
-                    </Button>
+                    {session?.data ? (
+                      <LogoutButton />
+                    ) : (
+                      <>
+                        <Button asChild variant="outline">
+                          <a href={auth.login.url}>{auth.login.title}</a>
+                        </Button>
+                        <Button asChild>
+                          <a href={auth.signup.url}>{auth.signup.title}</a>
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
               </SheetContent>
@@ -177,11 +192,11 @@ const renderMenuItem = (item: MenuItem) => {
       <NavigationMenuItem key={item.title}>
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
-          {item.items.map((subItem) => (
+          {/* {item.items.map((subItem) => (
             <NavigationMenuLink asChild key={subItem.title} className="w-80">
               <SubMenuLink item={subItem} />
             </NavigationMenuLink>
-          ))}
+          ))} */}
         </NavigationMenuContent>
       </NavigationMenuItem>
     );
@@ -209,11 +224,11 @@ const renderMobileMenuItem = (item: MenuItem) => {
         <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
           {item.title}
         </AccordionTrigger>
-        <AccordionContent className="mt-2">
+        {/* <AccordionContent className="mt-2">
           {item.items.map((subItem) => (
             <SubMenuLink key={subItem.title} item={subItem} />
           ))}
-        </AccordionContent>
+        </AccordionContent> */}
       </AccordionItem>
     );
   }
@@ -225,23 +240,23 @@ const renderMobileMenuItem = (item: MenuItem) => {
   );
 };
 
-const SubMenuLink = ({ item }: { item: MenuItem }) => {
-  return (
-    <a
-      className="flex min-w-80 flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
-      href={item.url}
-    >
-      <div className="text-foreground">{item.icon}</div>
-      <div>
-        <div className="text-sm font-semibold">{item.title}</div>
-        {item.description && (
-          <p className="text-sm leading-snug text-muted-foreground">
-            {item.description}
-          </p>
-        )}
-      </div>
-    </a>
-  );
-};
+// const SubMenuLink = ({ item }: { item: MenuItem }) => {
+//   return (
+//     <a
+//       className="flex min-w-80 flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
+//       href={item.url}
+//     >
+//       <div className="text-foreground">{item.icon}</div>
+//       <div>
+//         <div className="text-sm font-semibold">{item.title}</div>
+//         {item.description && (
+//           <p className="text-sm leading-snug text-muted-foreground">
+//             {item.description}
+//           </p>
+//         )}
+//       </div>
+//     </a>
+//   );
+// };
 
 export { Navbar };
