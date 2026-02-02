@@ -81,7 +81,7 @@ const Navbar = async ({
 }: Navbar1Props) => {
   // Get session
   const session = await userService.getSession();
-  console.log(session);
+  // console.log(session);
   return (
     <section className={cn("py-4", className)}>
       <div className="container mx-auto px-4">

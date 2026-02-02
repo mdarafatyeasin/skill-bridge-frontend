@@ -12,9 +12,9 @@ export const userService = {
                 cache: "no-store"
             })
             const session = await res.json();
-            if (session.data===null) {
-                return { data: null, error: { massage: "session is missing" } }
-            }
+            // if (session.data===null) {
+            //     return { data: null, error: { massage: "session is missing" } }
+            // }
             return session
         } catch (err) {
             console.error(err);

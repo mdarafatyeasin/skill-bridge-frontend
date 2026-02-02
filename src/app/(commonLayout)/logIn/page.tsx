@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn } from "@/lib/auth-client"
+import { authClient, signIn } from "@/lib/auth-client"
 
 export default function LogIn() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -32,6 +32,13 @@ export default function LogIn() {
         } catch (err) {
             console.log(err);
         }
+    };
+
+    const handleGoogleLogin = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "http://localhost:3000"
+        });
     };
 
     return (
@@ -84,7 +91,7 @@ export default function LogIn() {
                 </CardContent>
                 <CardFooter className="flex-col gap-2">
 
-                    <Button variant="outline" className="w-full">
+                    <Button onClick={() => handleGoogleLogin()} variant="outline" className="w-full">
                         Login with Google
                     </Button>
                 </CardFooter>

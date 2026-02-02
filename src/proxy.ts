@@ -7,7 +7,7 @@ export async function proxy(request: NextRequest) {
     const pathName = request.nextUrl.pathname;
 
     const { user } = await userService.getSession();
-    console.log("Session data:", user);
+    // console.log("Session data:", user);
 
     if (!user) {
         // ❌ No session → redirect to login
