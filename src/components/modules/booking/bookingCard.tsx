@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Star, MapPin, Calendar, CheckCircle, Clock } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { bookingService } from '@/services/booking.service'
 
 type TimeSlot = {
   id: string
@@ -21,6 +22,7 @@ interface BookingCardProps {
 }
 
 export default function BookingCard({ hourlyRate, timeSlots = [], tutorId }: BookingCardProps) {
+  // console.log(timeSlots[0]?.id, tutorId);
   const [selectedSlotId, setSelectedSlotId] = useState<string>('')
   const [isBooking, setIsBooking] = useState(false)
 
@@ -36,14 +38,27 @@ export default function BookingCard({ hourlyRate, timeSlots = [], tutorId }: Boo
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
   }
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!selectedSlotId) {
       alert('Please select a time slot')
       return
     }
-    setIsBooking(true)
-    console.log('booking confirmed')
-    setTimeout(() => setIsBooking(false), 1000)
+    if (timeSlots[0]?.id && tutorId) {
+      console.log("ready to book");
+      const bookingData = {
+        time_slot: selectedSlotId,
+        tutor_id: tutorId
+      };
+      setIsBooking(true);
+      const result = await bookingService.createBooking(bookingData);
+      if (result.success) {
+        alert('Booking successful!');
+        console.log(result);
+      } else {
+        alert('Booking failed. Please try again.');
+      }
+      setIsBooking(false);
+    }
   }
 
   return (
@@ -87,11 +102,10 @@ export default function BookingCard({ hourlyRate, timeSlots = [], tutorId }: Boo
               <button
                 key={slot.id}
                 onClick={() => setSelectedSlotId(slot.id)}
-                className={`p-3 rounded-lg border-2 transition-all text-left text-sm font-medium ${
-                  selectedSlotId === slot.id
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border bg-background text-foreground hover:border-primary/50'
-                }`}
+                className={`p-3 rounded-lg border-2 transition-all text-left text-sm font-medium ${selectedSlotId === slot.id
+                  ? 'border-primary bg-primary/10 text-primary'
+                  : 'border-border bg-background text-foreground hover:border-primary/50'
+                  }`}
               >
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />

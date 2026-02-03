@@ -1,6 +1,3 @@
-import { env } from "@/env";
-
-
 // bookingData types "time_slot", "tutor_id"
 interface BookingData {
     time_slot: string;
@@ -10,11 +7,14 @@ interface BookingData {
 export const bookingService = {
     createBooking: async function (bookingData: BookingData) {
         try {
-            const res = await fetch(`${env.API_URL}/api/v1/booking`, {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    // "Cookie": cookieStore.toString()
                 },
+                credentials: 'include',
                 body: JSON.stringify(bookingData)
             });
             const bookingResponse = await res.json();
@@ -27,8 +27,11 @@ export const bookingService = {
 
     getMyBookings: async function () {
         try {
-            const res = await fetch(`${env.API_URL}/api/v1/booking/myBooking`, {
-                cache: "no-store"
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking/myBooking`, {
+                cache: "no-store",
+                // automatically include cookies in the request
+                credentials: 'include',
             });
             const bookings = await res.json();
             return bookings;
@@ -40,8 +43,10 @@ export const bookingService = {
     
     getMyBookingsById: async function (id: string) {
         try {
-            const res = await fetch(`${env.API_URL}/api/v1/booking/myBooking/${id}`, {
-                cache: "no-store"
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking/myBooking/${id}`, {
+                cache: "no-store",
+                credentials: 'include',
             });
             const booking = await res.json();
             return booking;
@@ -53,11 +58,13 @@ export const bookingService = {
 
     updateMyBookingStatus: async function (id: string, status: string) {
         try {
-            const res = await fetch(`${env.API_URL}/api/v1/booking/myBooking/update/${id}`, {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking/myBooking/update/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: 'include',
                 body: JSON.stringify({ status })
             });
             const updatedBooking = await res.json();
@@ -70,11 +77,13 @@ export const bookingService = {
 
     updateTeacherBookingStatus: async function (id: string, status: string) {
         try {
-            const res = await fetch(`${env.API_URL}/api/v1/booking/teacherBooking/update/${id}`, {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking/teacherBooking/update/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: 'include',
                 body: JSON.stringify({ status })
             });
             const updatedBooking = await res.json();
