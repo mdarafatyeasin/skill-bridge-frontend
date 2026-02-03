@@ -3,6 +3,7 @@
 import { Star, Clock, MapPin, Award } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import Link from 'next/link'
 
 interface TutorCardProps {
   tutor: {
@@ -56,11 +57,10 @@ export default function TutorCard({ tutor }: TutorCardProps) {
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-4 h-4 ${
-                  i < Math.round(tutor.rating_avg)
+                className={`w-4 h-4 ${i < Math.round(tutor.rating_avg)
                     ? 'fill-accent text-accent'
                     : 'text-muted-foreground'
-                }`}
+                  }`}
               />
             ))}
           </div>
@@ -95,12 +95,14 @@ export default function TutorCard({ tutor }: TutorCardProps) {
 
         {/* CTA Buttons */}
         <div className="flex gap-2 pt-4">
-          <Button 
-            variant="outline" 
-            className="flex-1 border-primary text-primary hover:bg-primary/10 bg-transparent"
-          >
-            Profile
-          </Button>
+          <Link href={`/teachers/${tutor.id}`} className="flex-1">
+            <Button
+              variant="outline"
+              className="w-full border-primary text-primary hover:bg-primary/10 bg-transparent"
+            >
+              Profile
+            </Button>
+          </Link>
           <Button className="flex-1 bg-primary hover:bg-primary/90 text-white">
             Book Session
           </Button>
