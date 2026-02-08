@@ -12,9 +12,9 @@ export default async function page() {
         );
     } else if (profile.data[0].user.role === "TEACHER") {
         return (
-            <div className="w-full">
-                This is teacher dashboard
-                {/* <TeacherProfile {...profile.data[0]} /> */}
+            <div className="w-full py-10">
+                {/* This is teacher dashboard........ */}
+                <TeacherProfile {...profile.data[0]} />
             </div>
         );
     } else {

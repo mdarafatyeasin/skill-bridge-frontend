@@ -27,7 +27,7 @@ export const teacherService = {
         }
     },
 
-    createTimeSlot: async function (data: {startTime: string, endTime: string }) {
+    createTimeSlot: async function (data: {startTime: string, endTime: string, available?: boolean}) {
         try {
             const res = await fetch("http://localhost:8000/api/v1/slot", {
                 method: "POST",
@@ -37,6 +37,7 @@ export const teacherService = {
                 body: JSON.stringify({
                     start_time: data.startTime,
                     end_time: data.endTime,
+                    available: data.available,
                 }),
                 credentials: 'include',
             })

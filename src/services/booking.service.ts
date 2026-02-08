@@ -5,7 +5,6 @@ interface BookingData {
 }
 
 export const bookingService = {
-    // complete teachers booking
     createBooking: async function (bookingData: BookingData) {
         try {
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -78,9 +77,10 @@ export const bookingService = {
 
     updateTeacherBookingStatus: async function (id: string, status: string) {
         try {
+            console.log(id);
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-            const res = await fetch(`${baseUrl}/api/v1/booking/teacherBooking/update/${id}`, {
-                method: "PATCH",
+            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/update/${id}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
