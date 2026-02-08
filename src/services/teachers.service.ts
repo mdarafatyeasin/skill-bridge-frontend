@@ -1,5 +1,4 @@
 import { env } from "@/env";
-import { get } from "http";
 
 export const teacherService = {
     getTutors: async function () {
@@ -22,6 +21,27 @@ export const teacherService = {
             })
             const tutor = await res.json();
             return tutor
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
+        }
+    },
+
+    createTimeSlot: async function (data: {startTime: string, endTime: string }) {
+        try {
+            const res = await fetch("http://localhost:8000/api/v1/slot", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    start_time: data.startTime,
+                    end_time: data.endTime,
+                }),
+                credentials: 'include',
+            })
+            const result = await res.json();
+            return result
         } catch (err) {
             console.error(err);
             return { data: null, error: { message: "Something went wrong" } }

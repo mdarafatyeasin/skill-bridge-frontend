@@ -5,6 +5,7 @@ interface BookingData {
 }
 
 export const bookingService = {
+    // complete teachers booking
     createBooking: async function (bookingData: BookingData) {
         try {
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;

@@ -69,6 +69,7 @@ const Navbar = async ({
   menu = [
     { title: "Home", url: "/" },
     { title: "Teachers", url: "/teachers" },
+    { title: "Dashboard", url: "/dashboard" },
     { title: "Resources", url: "#" },
     { title: "Pricing", url: "#", },
     { title: "Blog", url: "#", },
