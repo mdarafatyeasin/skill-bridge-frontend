@@ -1,3 +1,5 @@
+// import { cookies } from "next/headers";
+
 // bookingData types "time_slot", "tutor_id"
 interface BookingData {
     time_slot: string;
@@ -77,7 +79,6 @@ export const bookingService = {
 
     updateTeacherBookingStatus: async function (id: string, status: string) {
         try {
-            console.log(id);
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
             const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/update/${id}`, {
                 method: "PUT",
@@ -89,6 +90,25 @@ export const bookingService = {
             });
             const updatedBooking = await res.json();
             return updatedBooking;
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
+        }
+    },
+
+    getTeachersBookings: async function () {
+        try {
+            const { cookies } = await import("next/headers");
+            const cookieStore = await cookies()
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking`, {
+                cache: "no-store",
+                headers: {
+                    Cookie: cookieStore.toString()
+                }
+            });
+            const bookings = await res.json();
+            return bookings;
         } catch (err) {
             console.error(err);
             return { data: null, error: { message: "Something went wrong" } }

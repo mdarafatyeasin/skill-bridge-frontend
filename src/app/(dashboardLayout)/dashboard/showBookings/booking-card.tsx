@@ -1,72 +1,114 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { bookingService } from "@/services/booking.service"
+import { bookingService } from "@/services/booking.service";
 
-type Booking = {
-    id: string
-    status: string
+export interface TutorProfile {
+  id: string;
+  user_id: string;
+  user: User;
+
+  hourly_rate?: number;
+  experience_year?: number;
+  qualification?: string;
+  rating_avg?: number;
+
+  category_id: string;
+  category: Category;
+
+  created_at: Date;
+  update_at: Date;
+
+  reviews: Review[];
+  bookings: Booking[];
+  timeSlots: TimeSlot[];
 }
 
-type BookingCardProps = {
-    bookings: Booking[]
+export interface Review {
+  id: string;
+  student_id: string;
+  tutor_id: string;
+  tutor: TutorProfile;
+  booking_id: string;
+  rating: number;
+  comment: string;
+
+  created_at: Date;
+  updated_at: Date;
 }
 
-export function BookingCard({ bookings }: BookingCardProps) {
-    const [error, setError] = useState<string>('')
-    const [loading, setLoading] = useState<string>('')
+export interface Category {
+  id: string;
+  category: string;
+  description?: string;
+  created_at: Date;
+  update_at: Date;
+  tutorProfiles: TutorProfile[];
+}
 
-    const handleBookingStatus = async (id: string, status: string) => {
-        setError('')
-        setLoading(id)
-        
+export interface Booking {
+  id: string;
+  tutor_id: string;
+  tutor: TutorProfile;
+  student_id: string;
+  user: User;
+  time_slot: string;
+  slot: TimeSlot;
+  status: BookingStatus;
+}
+
+export interface TimeSlot {
+  id: string;
+  tutor_id: string;
+  tutor: TutorProfile;
+  start_time: Date;
+  end_time: Date;
+  available: boolean;
+  created_at: Date;
+  updated_at: Date;
+  booking?: Booking;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  role?: string;
+  bookings: Booking[];
+  tutorProfiles: TutorProfile[];
+}
+
+export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'COMPLETED';
+
+export default function TeacherBookingCard({ bookings = [] }: { bookings?: Booking[] }) {
+    console.log(bookings);
+    const handleStatusUpdate = async (bookingId: string, newStatus: BookingStatus) => {
         try {
-            const result = await bookingService.updateTeacherBookingStatus(id, status)
-            console.log(result);
-            
-            if (result.error) {
-                setError(`Failed to update booking: ${result.error.message}`)
-            } else {
-                console.log('Booking updated:', result)
-            }
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to update booking')
-        } finally {
-            setLoading('')
+            await bookingService.updateTeacherBookingStatus(bookingId, newStatus);
+            alert(`Booking status updated to ${newStatus}`);
+        } catch (error) {
+            console.error("Error updating booking status:", error);
+            alert("Failed to update booking status. Please try again.");
         }
-    }
-
+    };
     return (
-        <div className="p-4">
-            {error && (
-                <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-                    {error}
-                </div>
-            )}
-            
-            <div>
-                This is all booking.....
-                {bookings.map((booking: Booking) => (
-                    <div key={booking.id} className="p-4 border rounded mb-4">
-                        <p><strong>Booking ID:</strong> {booking.id}</p>
-                        <p><strong>Status:</strong> {booking.status}</p>
-                        <button
-                            onClick={() => handleBookingStatus(booking.id, 'CONFIRMED')}
-                            disabled={loading === booking.id}
-                            className="mr-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
-                        >
-                            {loading === booking.id ? 'Updating...' : 'Confirm'}
-                        </button>
-                        <button
-                            onClick={() => handleBookingStatus(booking.id, 'REJECTED')}
-                            disabled={loading === booking.id}
-                            className="px-4 py-2 bg-red-500 text-white rounded disabled:opacity-50"
-                        >
-                            {loading === booking.id ? 'Updating...' : 'Reject'}
-                        </button>
+        <div>
+            {
+                bookings.map((b) => (
+                    <div key={b.id} className="border p-4 rounded mb-4">
+                        <h3 className="text-lg font-bold">Booking ID: {b.id}</h3>
+                        <p>Student: {b.user.name}</p>
+                        <p>Start Time: {b.slot?.start_time ? new Date(b.slot.start_time).toLocaleString() : "Not Available"}</p>
+                        <p>End Time: {b.slot?.end_time ? new Date(b.slot.end_time).toLocaleString() : "Not Available"}</p>
+                        <p>Slot: {b.slot?.available ? "Available" : "Not Available"}</p>
+                        <p>Status: {b.status}</p>
+                        <button onClick={() => handleStatusUpdate(b.id, "PENDING")} className="bg-blue-500 text-white px-4 py-2 rounded">Update Status</button>
                     </div>
-                ))}
-            </div>
+                ))
+            }
         </div>
     );
 }

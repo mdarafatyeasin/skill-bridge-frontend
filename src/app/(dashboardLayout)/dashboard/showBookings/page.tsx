@@ -1,10 +1,9 @@
-import { userProfileService } from "@/services/profile.service";
-import { BookingCard } from "./booking-card";
+
+import TeacherBookingCard from "./booking-card";
+import { bookingService } from "@/services/booking.service";
 
 export default async function page() {
-    const myBookings = await userProfileService.getMyProfile()
-    console.log(myBookings.data[0].bookings);
-    const bookings = await myBookings.data[0].bookings
-
-    return <BookingCard bookings={bookings} />
+    const teacherBooking = await bookingService.getTeachersBookings()
+    console.log(teacherBooking);
+    return <TeacherBookingCard bookings={teacherBooking.bookings ?? []} />
 }
