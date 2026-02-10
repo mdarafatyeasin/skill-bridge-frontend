@@ -4,6 +4,7 @@ import React from "react"
 
 import { Clock, User, Mail, Calendar, CheckCircle, AlertCircle, XCircle } from 'lucide-react'
 import { useState } from 'react'
+import { bookingService } from "@/services/booking.service"
 
 const defaultStatusConfig = {
   bg: 'bg-background/50',
@@ -130,7 +131,7 @@ export default function TeacherBookingCard({ bookings = [] }: { bookings?: Booki
     setMessage(null)
 
     try {
-      const { bookingService } = await import('@/services/booking.service')
+      // const { bookingService } = await import('@/services/booking.service')
       await bookingService.updateTeacherBookingStatus(bookingId, newStatus)
       setMessage({ type: 'success', text: `Booking updated to ${newStatus}` })
     } catch (error) {

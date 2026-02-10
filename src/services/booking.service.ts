@@ -62,7 +62,7 @@ export const bookingService = {
         try {
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
             const res = await fetch(`${baseUrl}/api/v1/booking/myBooking/update/${id}`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
