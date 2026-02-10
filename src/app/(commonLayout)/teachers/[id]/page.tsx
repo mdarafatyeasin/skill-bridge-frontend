@@ -11,6 +11,7 @@ type Review = {
 export default async function TutorDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
     const { data: tutor } = await teacherService.getTutorsById(id)
+    console.log(id);
 
     if (!tutor) {
         return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { BarChart3, Users, Settings, LogOut, Menu, Gauge, User } from 'lucide-react'
+import { BarChart3, Users, Settings, LogOut, Menu, Gauge, User, Home } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
@@ -23,6 +23,12 @@ type MenuItem = {
 }
 
 const menuItems: MenuItem[] = [
+  {
+    title: 'Home',
+    icon: Home,
+    href: '/',
+    allowedRoles: ['ADMIN', 'TEACHER', 'USER'],
+  },
   {
     title: 'My Profile',
     icon: User,

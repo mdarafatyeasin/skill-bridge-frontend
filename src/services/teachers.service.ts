@@ -16,10 +16,17 @@ export const teacherService = {
 
     getTutorsById: async function (id: string) {
         try {
+            const { cookies } = await import("next/headers");
+            const cookieStore = await cookies()
             const res = await fetch(`${env.API_URL}/api/v1/tutor/${id}`, {
-                cache: "no-store"
+                cache: "no-store",
+                headers: {
+                    Cookie: cookieStore.toString(),
+                    "Content-Type": "application/json",
+                }
             })
             const tutor = await res.json();
+            console.log(tutor);
             return tutor
         } catch (err) {
             console.error(err);
@@ -27,7 +34,7 @@ export const teacherService = {
         }
     },
 
-    createTimeSlot: async function (data: {startTime: string, endTime: string, available?: boolean}) {
+    createTimeSlot: async function (data: { startTime: string, endTime: string, available?: boolean }) {
         try {
             const res = await fetch("http://localhost:8000/api/v1/slot", {
                 method: "POST",

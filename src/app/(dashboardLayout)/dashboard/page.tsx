@@ -1,20 +1,24 @@
 import TeacherProfile from "@/components/dashboard/teacher/TeacheProfile";
+import StudentProfile from "@/components/dashboard/user/studentProfile";
 import { userProfileService } from "@/services/profile.service";
 
 export default async function page() {
     const profile = await userProfileService.getMyProfile();
-    console.log("Dashboard data", profile.data[0]);
-    if (profile.data[0].user.role === "USER") {
+    const tutorProfile = await userProfileService.getTutorProfile();
+
+    console.log("Tutor Profile", tutorProfile);
+    console.log("Dashboard data", profile.data[0].role);
+
+    if (profile.data[0].role === "USER") {
         return (
             <div>
-                This is student dashboard
+                <StudentProfile {...profile.data[0]} />
             </div>
         );
-    } else if (profile.data[0].user.role === "TEACHER") {
+    } else if (profile.data[0].role === "TEACHER") {
         return (
             <div className="w-full py-10">
-                {/* This is teacher dashboard........ */}
-                <TeacherProfile {...profile.data[0]} />
+                <TeacherProfile {...tutorProfile.data[0]} />
             </div>
         );
     } else {
