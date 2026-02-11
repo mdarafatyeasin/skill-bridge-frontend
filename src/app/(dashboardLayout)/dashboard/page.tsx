@@ -1,3 +1,4 @@
+import AdminProfile from "@/components/dashboard/admin/AdminProfile";
 import TeacherProfile from "@/components/dashboard/teacher/TeacheProfile";
 import StudentProfile from "@/components/dashboard/user/studentProfile";
 import { userProfileService } from "@/services/profile.service";
@@ -24,7 +25,7 @@ export default async function page() {
     } else {
         return (
             <div>
-                This is admin dashboard
+                <AdminProfile {...profile.data[0]} />
             </div>
         );
     }

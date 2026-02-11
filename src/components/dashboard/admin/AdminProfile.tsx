@@ -72,7 +72,7 @@ const defaultConfig = {
   color: 'text-muted-foreground'
 };
 
-export default function UserProfile(profile: User) {
+export default function AdminProfile(profile: User) {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState<string>("");

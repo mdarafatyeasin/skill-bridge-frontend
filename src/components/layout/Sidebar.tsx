@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { RoleType } from '@/constants/role'
+import { userService } from '@/services/user.service'
 
 type MenuItem = {
   title: string

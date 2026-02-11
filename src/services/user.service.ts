@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import { cookies } from "next/headers";
 
 export const userService = {
@@ -19,6 +20,45 @@ export const userService = {
         } catch (err) {
             console.error(err);
             return { data: null, error: { massage: "Something went wrong" } }
+        }
+    },
+
+    getAllUsers: async function () {
+        try {
+            const cookieStore = await cookies();
+            const result = await fetch(`${env.API_URL}/api/v1/user/allUser`, {
+                cache: "no-store",
+                credentials: 'include',
+                headers: { 
+                    Cookie: cookieStore.toString(),
+                }
+            });
+            const users = await result.json();
+            return users;
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
+        }
+    },
+
+    updateUserProfileById: async function (userId: string, role: string) {
+        try {
+            const cookieStore = await cookies();
+            const result = await fetch(`${env.API_URL}/api/v1/user/updateProfile/${userId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Cookie: cookieStore.toString(),
+                },
+                body: JSON.stringify({ role }),
+                cache: "no-store",
+                credentials: 'include',
+            });
+            const updatedProfile = await result.json();
+            return updatedProfile;
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
         }
     }
 }
