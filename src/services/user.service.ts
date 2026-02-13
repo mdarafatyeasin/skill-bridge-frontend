@@ -41,24 +41,24 @@ export const userService = {
         }
     },
 
-    updateUserProfileById: async function (userId: string, role: string) {
-        try {
-            const cookieStore = await cookies();
-            const result = await fetch(`${env.API_URL}/api/v1/user/updateProfile/${userId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Cookie: cookieStore.toString(),
-                },
-                body: JSON.stringify({ role }),
-                cache: "no-store",
-                credentials: 'include',
-            });
-            const updatedProfile = await result.json();
-            return updatedProfile;
-        } catch (err) {
-            console.error(err);
-            return { data: null, error: { message: "Something went wrong" } }
-        }
-    }
+    // updateUserProfileById: async function (userId: string, status: string) {
+    //     try {
+    //         const cookieStore = await cookies();
+    //         const result = await fetch(`${env.API_URL}/api/v1/user/updateProfile/${userId}`, {
+    //             method: "PUT",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 Cookie: cookieStore.toString(),
+    //             },
+    //             body: JSON.stringify(status),
+    //             cache: "no-store",
+    //             credentials: 'include',
+    //         });
+    //         const updatedProfile = await result.json();
+    //         return updatedProfile;
+    //     } catch (err) {
+    //         console.error(err);
+    //         return { data: null, error: { message: "Something went wrong" } }
+    //     }
+    // }
 }
