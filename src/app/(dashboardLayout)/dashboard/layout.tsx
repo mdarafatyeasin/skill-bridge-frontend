@@ -12,7 +12,8 @@ export default async function DashboardLayout({
     
     try {
         const profile = await userProfileService.getMyProfile()
-        userRole = profile.data?.[0]?.user?.role
+        userRole = profile.data?.[0]?.role
+        console.log(userRole);
     } catch (err) {
         console.error("Failed to fetch user profile:", err)
     }
