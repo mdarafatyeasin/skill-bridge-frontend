@@ -79,14 +79,15 @@ export const bookingService = {
 
     updateTeacherBookingStatus: async function (id: string, status: string) {
         try {
+            console.log(id, status);
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/update/${id}`, {
+            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 credentials: 'include',
-                body: JSON.stringify({ status })
+                body: JSON.stringify( {status} )
             });
             const updatedBooking = await res.json();
             return updatedBooking;
