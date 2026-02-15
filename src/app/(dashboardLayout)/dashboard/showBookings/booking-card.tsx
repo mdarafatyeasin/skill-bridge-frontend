@@ -32,7 +32,7 @@ const statusConfig: Record<BookingStatus, { bg: string; badge: string; icon: Rea
     icon: <XCircle className="w-4 h-4" />,
     color: 'text-destructive'
   },
-  COMPLETED: {
+  COMPLETE: {
     bg: 'bg-secondary/5',
     badge: 'bg-secondary/15 text-secondary',
     icon: <CheckCircle className="w-4 h-4" />,
@@ -119,7 +119,7 @@ export interface User {
   tutorProfiles: TutorProfile[];
 }
 
-export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'COMPLETED';
+export type BookingStatus = 'PENDING' | 'CONFIRMED' | 'CANCELED' | 'COMPLETE';
 
 
 export default function TeacherBookingCard({ bookings = [] }: { bookings?: Booking[] }) {
@@ -261,9 +261,9 @@ export default function TeacherBookingCard({ bookings = [] }: { bookings?: Booki
                   </button>
                 )}
 
-                {booking.status !== 'COMPLETED' && booking.status === 'CONFIRMED' && (
+                {booking.status !== 'COMPLETE' && booking.status === 'CONFIRMED' && (
                   <button
-                    onClick={() => handleStatusUpdate(booking.id, 'COMPLETED')}
+                    onClick={() => handleStatusUpdate(booking.id, 'COMPLETE')}
                     disabled={loading === booking.id}
                     className="flex-1 px-4 py-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground text-sm font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >

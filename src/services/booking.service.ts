@@ -81,7 +81,7 @@ export const bookingService = {
         try {
             console.log(id, status);
             const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/${id}`, {
+            const res = await fetch(`${baseUrl}/api/v1/booking/teachersBooking/update/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -114,5 +114,24 @@ export const bookingService = {
             console.error(err);
             return { data: null, error: { message: "Something went wrong" } }
         }
-    }
+    },
+
+    getAllBookings: async function () {
+        try {
+            const { cookies } = await import("next/headers");
+            const cookieStore = await cookies()
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+            const res = await fetch(`${baseUrl}/api/v1/booking`, {
+                cache: "no-store",
+                headers: {
+                    Cookie: cookieStore.toString()
+                }
+            });
+            const bookings = await res.json();
+            return bookings;
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
+        }
+    },
 }
