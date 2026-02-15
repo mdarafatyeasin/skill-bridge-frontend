@@ -54,5 +54,28 @@ export const teacherService = {
             console.error(err);
             return { data: null, error: { message: "Something went wrong" } }
         }
+    },
+
+    createTeacherProfile: async function (data: { category_id: string, hourly_rate: number, experience_year: number, qualification: string }) {
+        try {
+            const res = await fetch("http://localhost:8000/api/v1/tutor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    category_id: data.category_id,
+                    hourly_rate: data.hourly_rate,
+                    experience_year: data.experience_year,
+                    qualification: data.qualification,
+                }),
+                credentials: 'include',
+            })
+            const result = await res.json();
+            return result
+        } catch (err) {
+            console.error(err);
+            return { data: null, error: { message: "Something went wrong" } }
+        }
     }
 }
