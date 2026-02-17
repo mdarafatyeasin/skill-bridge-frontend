@@ -55,17 +55,11 @@ const menuItems: MenuItem[] = [
     allowedRoles: ['ADMIN'],
   },
   {
-    title: 'Performance',
+    title: 'Add Category',
     icon: Gauge,
-    href: '/dashboard/performance',
+    href: '/dashboard/createCategory',
     allowedRoles: ['ADMIN', 'TEACHER'],
-  },
-  {
-    title: 'Settings',
-    icon: Settings,
-    href: '/dashboard/settings',
-    allowedRoles: ['ADMIN', 'TEACHER', 'USER'],
-  },
+  }
 ]
 
 export function DashboardSidebar({ role }: { role?: RoleType }) {

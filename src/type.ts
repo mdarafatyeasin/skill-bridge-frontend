@@ -21,8 +21,9 @@ export interface TutorProfile {
 }
 
 export interface Category {
-    id: string;
+    id?: string;
     category: string;
+    description:string;
 }
 
 
