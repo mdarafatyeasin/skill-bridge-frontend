@@ -18,12 +18,14 @@ export interface TutorProfile {
     hourly_rate: number;
     experience_year: number;
     qualification: string;
+    category: Category
+    rating_avg: Float64Array
 }
 
 export interface Category {
     id?: string;
     category: string;
-    description:string;
+    description: string;
 }
 
 

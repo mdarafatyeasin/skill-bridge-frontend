@@ -14,6 +14,8 @@ export default async function Page() {
 //   console.log("User Profile:", profile.data[0]);
 //   console.log("Role:", profile.data[0].role);
 
+console.log(profile);
+
   const role = profile.data[0].role;
 
   if (role === "USER") {

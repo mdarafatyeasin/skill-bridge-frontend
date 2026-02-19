@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { authClient, signIn, signUp } from "@/lib/auth-client"
 import { SingUpData } from "@/type"
+import { redirect } from "next/dist/server/api-utils"
 
 export default function SingUp() {
     const [role, setRole] = useState<"STUDENT" | "TEACHER">("STUDENT")
@@ -40,8 +41,10 @@ export default function SingUp() {
             }
 
             const res = await signUp.email(signUpData)
-
-            console.log(res);
+            // if(res){
+                 
+            // }
+            // console.log(res);
         } catch (err) {
             console.log(err);
         }
